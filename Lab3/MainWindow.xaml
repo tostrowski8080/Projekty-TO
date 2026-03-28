@@ -1,0 +1,58 @@
+﻿<Window x:Class="Lab3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab3"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="950">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Background="#FFEEEEEE" Margin="5">
+            <TextBlock Text="Settings" FontWeight="Bold" Margin="5" FontSize="16"/>
+
+            <TextBlock Text="Population:" Margin="5,5,5,0"/>
+            <TextBox Name="txtCount" Text="500" Margin="5"/>
+
+            <TextBlock Text="Immunity chance, initial and new pops (0-1):" Margin="5,5,5,0"/>
+            <TextBox Name="txtImmunity" Text="0.05" Margin="5"/>
+            <TextBlock Text="Initial infected % (0-1):" Margin="5,5,5,0"/>
+            <TextBox Name="txtInfectedPercent" Text="0.00" Margin="5"/>
+            <TextBlock Text="Room size (m):" Margin="5,5,5,0"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Name="txtWidth" Text="50" Width="60" Margin="5"/>
+                <TextBlock Text="x"/>
+                <TextBox Name="txtHeight" Text="50" Width="60" Margin="5"/>
+            </StackPanel>
+
+            <Button Content="START (Reset)" Click="BtnStart_Click" Margin="5" Height="30" Background="#DDDDDD"/>
+            <Button Content="SAVE STATE" Click="BtnSave_Click" Margin="5" Height="30"/>
+            <Button Content="LOAD STATE" Click="BtnLoad_Click" Margin="5" Height="30"/>
+
+            <TextBlock Text="Markings:" FontWeight="Bold" Margin="5,15,5,5"/>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Ellipse Width="15" Height="15" Fill="Green"/>
+                <TextBlock Text=" Healthy, Susceptible" VerticalAlignment="Center" Margin="5,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Ellipse Width="15" Height="15" Fill="Orange"/>
+                <TextBlock Text=" Infected, no Symptoms" VerticalAlignment="Center" Margin="5,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Ellipse Width="15" Height="15" Fill="Red"/>
+                <TextBlock Text=" Infected, Symptoms" VerticalAlignment="Center" Margin="5,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Ellipse Width="15" Height="15" Fill="Blue"/>
+                <TextBlock Text=" Immune" VerticalAlignment="Center" Margin="5,0"/>
+            </StackPanel>
+            <TextBlock Name="lblStats" Text="Time: 0s" Margin="5,20,5,5" TextWrapping="Wrap"/>
+        </StackPanel>
+        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="2" Margin="5">
+            <Canvas Name="SimCanvas" Background="White" ClipToBounds="True"/>
+        </Border>
+    </Grid>
+</Window>
