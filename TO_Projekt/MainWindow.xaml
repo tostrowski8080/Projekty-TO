@@ -1,0 +1,67 @@
+﻿<Window x:Class="TO_Projekt.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TO_Projekt" xmlns:local1="clr-namespace:TO_Projekt.Models"
+        mc:Ignorable="d"
+        Title="Ant Colony Simulator" Height="650" Width="1000">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <DataTemplate DataType="{x:Type local1:EntityViewModel}">
+            <Grid Width="{Binding Size}" Height="{Binding Size}">
+                <Ellipse Fill="{Binding ColorBrush}" StrokeThickness="0"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local1:ObstacleViewModel}">
+            <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="Gray"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local1:PheromoneViewModel}">
+            <Ellipse Width="4" Height="4" Fill="#5000BFFF" Opacity="{Binding Intensity}"/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Background="#3E3E42" Padding="10">
+            <StackPanel>
+                <TextBlock Text="Command Panel" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/>
+                <TextBlock Text="Status:" Foreground="LightGray"/>
+                <TextBlock Text="{Binding StatusMessage}" Foreground="#00FF00" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock Text="Stats:" Foreground="LightGray" Margin="0,10,0,0"/>
+                <TextBlock Text="{Binding AntCountText}" Foreground="White"/>
+                <TextBlock Text="{Binding FoodCountText}" Foreground="White"/>
+                <Separator Margin="0,15"/>
+                <TextBlock Text="Starting number of Ants:" Foreground="White"/>
+                <Slider Minimum="5" Maximum="100" Value="{Binding InitialAntCount}" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,5,0,0"/>
+                <TextBlock Text="{Binding InitialAntCount}" Foreground="White" HorizontalAlignment="Right"/>
+                <Separator Margin="0,15"/>
+                <Button Content="START" Command="{Binding StartCommand}" Height="30" Margin="0,5" Background="#4CAF50" Foreground="White"/>
+                <Button Content="PAUSE" Command="{Binding PauseCommand}" Height="30" Margin="0,5" Background="#FFC107"/>
+                <Button Content="RESTART" Command="{Binding RestartCommand}" Height="30" Margin="0,5" Background="#F44336" Foreground="White"/>
+                <Separator Margin="0,15"/>
+                <Button Content="Save current state" Command="{Binding SaveStateCommand}" Height="30" Margin="0,5"/>
+                <Button Content="Load saved state" Command="{Binding LoadStateCommand}" Height="30" Margin="0,5" IsEnabled="{Binding CanLoadState}"/>
+            </StackPanel>
+        </Border>
+        <Border Grid.Column="1" Margin="10" BorderBrush="White" BorderThickness="2" Background="#F0F0F0" ClipToBounds="True">
+            <ItemsControl ItemsSource="{Binding WorldEntities}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas x:Name="WorldCanvas" Background="White"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
+        </Border>
+        <Rectangle Grid.Column="1" Width="40" Height="40" Fill="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" IsHitTestVisible="False"/>
+        <TextBlock Grid.Column="1" Text="Anthill" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" IsHitTestVisible="False"/>
+    </Grid>
+</Window>
