@@ -1,0 +1,15 @@
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\obj\Debug\net8.0\TO_Lab1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\obj\Debug\net8.0\TO_Lab1.AssemblyInfoInputs.cache
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\obj\Debug\net8.0\TO_Lab1.AssemblyInfo.cs
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\obj\Debug\net8.0\TO_Lab1.csproj.CoreCompileInputs.cache
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\obj\Debug\net8.0\TO_Lab1.sourcelink.json
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\bin\Debug\net8.0\TO_Lab1.exe
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\bin\Debug\net8.0\TO_Lab1.deps.json
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\bin\Debug\net8.0\TO_Lab1.runtimeconfig.json
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\bin\Debug\net8.0\TO_Lab1.dll
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\bin\Debug\net8.0\TO_Lab1.pdb
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\obj\Debug\net8.0\TO_Lab1.dll
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\obj\Debug\net8.0\refint\TO_Lab1.dll
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\obj\Debug\net8.0\TO_Lab1.pdb
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\obj\Debug\net8.0\TO_Lab1.genruntimeconfig.cache
+C:\Users\diado\source\repos\TO_Lab1\TO_Lab1\obj\Debug\net8.0\ref\TO_Lab1.dll
