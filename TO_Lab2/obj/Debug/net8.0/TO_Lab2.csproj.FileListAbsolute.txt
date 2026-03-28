@@ -1,0 +1,15 @@
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\bin\Debug\net8.0\TO_Lab2.exe
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\bin\Debug\net8.0\TO_Lab2.deps.json
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\bin\Debug\net8.0\TO_Lab2.runtimeconfig.json
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\bin\Debug\net8.0\TO_Lab2.dll
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\bin\Debug\net8.0\TO_Lab2.pdb
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\obj\Debug\net8.0\TO_Lab2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\obj\Debug\net8.0\TO_Lab2.AssemblyInfoInputs.cache
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\obj\Debug\net8.0\TO_Lab2.AssemblyInfo.cs
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\obj\Debug\net8.0\TO_Lab2.csproj.CoreCompileInputs.cache
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\obj\Debug\net8.0\TO_Lab2.sourcelink.json
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\obj\Debug\net8.0\TO_Lab2.dll
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\obj\Debug\net8.0\refint\TO_Lab2.dll
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\obj\Debug\net8.0\TO_Lab2.pdb
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\obj\Debug\net8.0\TO_Lab2.genruntimeconfig.cache
+C:\Users\diado\source\repos\TO_Lab2\TO_Lab2\obj\Debug\net8.0\ref\TO_Lab2.dll
