@@ -38,7 +38,7 @@ Do przeglądania całego świata (np. w celu aktualizacji wszystkich obiektów n
 ### 7. Adapter
 Dla zachowania czystości kodu, wprowadzono `UIConfigAdapter`. Jego zadaniem jest przetłumaczenie parametrów podanych przez użytkownika w suwakach i polach interfejsu WPF na bezpieczny obiekt `SimulationConfig` wymagany przez konstruktor świata.
 
-## ⚙️ Mechanika Symulacji
+## Mechanika Symulacji
 - **Feromony:** Mrówki wracające z jedzeniem zostawiają ślad feromonowy. Inne mrówki w stanie błądzenia wykrywają te ślady i modyfikują swój wektor ruchu, by podążać za "zapachem", co naturalnie tworzy szlaki transportowe. Ślady z czasem słabną (wyparowują).
 - **Zagrożenia:** Po mapie poruszają się czerwone, większe kule odbijające się od krawędzi mapy. Gdy mrówka wykryje zagrożenie w swoim promieniu, porzuca dotychczasowe zadania, rzuca pożywienie i przechodzi w stan ucieczki.
 - **Ekonomia Kolonii:** Znoszenie pożywienia zwiększa zasoby mrowiska. Gdy zgromadzi się odpowiednia ilość jedzenia, mrowisko tworzy nowe mrówki. Z drugiej strony, powrót do mrowiska konsumuje jedną porcję żywności (symulacja żywienia mrówki) - jeśli jedzenia zabraknie, mrówka umiera.
