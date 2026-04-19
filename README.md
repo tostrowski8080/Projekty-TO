@@ -1,42 +1,50 @@
-# Lab 4: Symulacja Systemu Dyspozytorskiego Straży Pożarnej (SKKM)
+# Lab 4: Fire Department Dispatch System Simulation (SKKM)
 
-Okienkowa aplikacja (WPF) symulująca pracę Stanowiska Kierowania Komendanta Miejskiego (SKKM) Państwowej Straży Pożarnej w Krakowie. System automatycznie generuje incydenty na mapie, a następnie dysponuje do nich odpowiednie siły i środki z najbliższych Jednostek Ratowniczo-Gaśniczych (JRG).
+*(Note: While the source code and architectural logic are written entirely in English, the application's Graphical User Interface is in Polish).*
 
-## 💻 Wykorzystany Tech Stack
-- **Język:** C# (.NET)
-- **Interfejs Użytkownika:** WPF (Windows Presentation Foundation)
-- **Logika Czasu Rzeczywistego:** Własna pętla symulacji oparta na delta-time (`dt`) i `DispatcherTimer`.
-- **Paradygmaty i Wzorce:** Object-Oriented Programming (OOP), Event-Driven Architecture, Strategy (Strategia), Iterator, State (Stan), Observer (Obserwator).
+A desktop application (WPF) simulating the operations of the Municipal Commander's Dispatch Center (SKKM) of the State Fire Service in Kraków. The system automatically generates incidents on a map and dispatches the appropriate resources and personnel from the nearest Fire and Rescue Units (JRG).
 
-## Architektura i Wzorce Projektowe
+## Tech Stack
 
-### 1. Wzorzec Strategia (Strategy Pattern)
-Każdy incydent może mieć inny charakter (Pożar, Miejscowe Zagrożenie), wymagając inną ilość środków.
-- `PZStrategy` - Pożar, wymaga 3 wozów.
-- `MZStrategy` - Miejscowe Zagrożenie, wymaga 2 wozów.
+* **Language:** C# (.NET)
+* **User Interface:** WPF (Windows Presentation Foundation)
+* **Real-Time Logic:** Custom simulation loop based on delta-time (dt) and `DispatcherTimer`.
+* **Paradigms & Patterns:** Object-Oriented Programming (OOP), Event-Driven Architecture, Strategy, Iterator, State, Observer.
 
-### 2. Wzorzec Iterator (Iterator Pattern)
-Kluczowym problemem logistycznym jest zadysponowanie wozów z jednostki znajdującej się **najbliżej** miejsca zdarzenia. Stworzono dedykowaną kolekcję `UnitCollection` i niestandardowy iterator `ClosestUnitIterator`. Zwraca on jednostki JRG zawsze w kolejności od najbliższej do najdalszej względem konkretnego punktu (dynamiczne sortowanie po odległości wektora 2D).
+## Architecture & Design Patterns
 
-### 3. Wzorzec Stan (State Pattern)
-Każdy wóz posiada swój wewnętrzny `ICarState`, który w pełni kontroluje jego zachowanie w pętli `Update`:
-- `FreeState`: Wóz czeka w bazie.
-- `MovingState`: Wóz przemieszcza się do celu (interpolacja pozycji na podstawie czasu).
-- `WaitingState`: Wóz dotarł na miejsce, ale czeka na dojazd pozostałych zadysponowanych sił.
-- `ActionState`: Wszystkie wozy dotarły, trwa akcja ratownicza.
-- `ReturningState`: Akcja zakończona (lub fałszywy alarm), wóz wraca do swojej jednostki macierzystej.
+### 1. Strategy Pattern
+Each incident can have a different nature (e.g., Fire, Local Threat), requiring a different amount of resources.
+* `PZStrategy` – Fire (*Pożar*), requires 3 fire trucks.
+* `MZStrategy` – Local Threat (*Miejscowe Zagrożenie*), requires 2 fire trucks.
 
-### 4. Wzorzec Obserwator (Observer Pattern)
-Zamiast ciągłego odpytywania (tzw. *polling*) obiektów o ich status, wprowadzono architekturę zdarzeniową (`IObservable` / `IObserver`):
-- **Wóz -> Incydent:** Kiedy wóz zmienia swój stan (np. z `Moving` na `Waiting`), powiadamia o tym incydent, do którego jest przypisany. Incydent zlicza wozy i gdy wszystkie są na miejscu, automatycznie przełącza je w tryb `ActionState`.
-- **Incydent -> SKKM:** Kiedy wszystkie wozy zakończą działania i odjadą, incydent wysyła powiadomienie do Głównego Dyspozytora (SKKM) z prośbą o usunięcie z mapy i wyczyszczenie pamięci.
+### 2. Iterator Pattern
+A key logistical challenge is dispatching trucks from the unit closest to the incident. To solve this, a dedicated `UnitCollection` and a custom `ClosestUnitIterator` were created. It iterates through the JRG units strictly in order from closest to farthest relative to a specific incident point (utilizing dynamic sorting based on 2D vector distances).
 
-## Przebieg Symulacji i Mechanika
-1. Generator losuje nowe zdarzenie na mapie (w granicach geograficznych Krakowa).
-2. SKKM określa wymagania zdarzenia za pomocą jego *Strategii*.
-3. System korzysta z *Iteratora*, by przeglądać jednostki od najbliższej i rezerwować wolne wozy.
-4. Przypisane wozy zmieniają *Stan* na dojazd i ruszają w kierunku celu.
-5. Po dotarciu na miejsce wszystkich sił, incydent może okazać się fałszywym alarmem (wozy natychmiast wracają) lub faktyczną akcją (czas trwania jest losowany).
-6. Za pomocą *Obserwatora* system czyści mapę po powrocie sił do koszar.
+### 3. State Pattern
+Each fire truck possesses its own internal `ICarState` that fully dictates its behavior within the `Update` loop:
+* `FreeState`: The truck is waiting at the base.
+* `MovingState`: The truck is traveling to the destination (position interpolation over time).
+* `WaitingState`: The truck has arrived at the scene but is waiting for the rest of the dispatched forces to arrive.
+* `ActionState`: All assigned trucks have arrived; the rescue operation is in progress.
+* `ReturningState`: The operation is complete (or it was a false alarm), and the truck is returning to its home unit.
 
-Aplikacja zawiera czytelną legendę na panelu bocznym. Widać na niej w czasie rzeczywistym m.in.: kolorowe kropki symbolizujące rodzaj zdarzenia, zmieniające się kolory piktogramów wozów w zależności od ich aktualnego stanu (Dojazd, Akcja, Powrót) oraz stan liczebny wolnych wozów w poszczególnych Jednostkach Ratowniczo-Gaśniczych.
+### 4. Observer Pattern
+Instead of continuously polling objects for their status, an event-driven architecture (`IObservable` / `IObserver`) was implemented:
+* **Truck -> Incident:** When a truck changes its state (e.g., from `Moving` to `Waiting`), it notifies the incident it is assigned to. The incident counts the arriving trucks, and once all are on-site, it automatically switches them into `ActionState`.
+* **Incident -> SKKM:** When all trucks finish their tasks and leave the scene, the incident sends a notification to the Main Dispatcher (SKKM) requesting to be removed from the map and cleared from memory.
+
+## Simulation Flow & Mechanics
+
+1. The generator spawns a new random event on the map (within the geographical boundaries of Kraków).
+2. The SKKM determines the required resources for the event using its designated **Strategy**.
+3. The system utilizes the **Iterator** to scan stations starting from the closest one, reserving available fire trucks.
+4. Assigned trucks shift their **State** to traveling and begin moving toward the coordinates.
+5. Once all required forces arrive, the incident may turn out to be a false alarm (trucks return immediately) or a real operation (the duration of the action is randomized).
+6. Using the **Observer** pattern, the system automatically cleans up the map once all units have returned to their barracks.
+
+### Real-Time Dashboard
+The application features a clear, readable legend on the side panel. It provides real-time visual feedback, including:
+* Colored dots symbolizing the specific type of incident.
+* Dynamically changing colors of the fire truck icons depending on their current state (Traveling, Action, Returning).
+* Live numerical tracking of available (free) trucks stationed at each respective Fire and Rescue Unit.
