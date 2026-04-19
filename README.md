@@ -1,22 +1,22 @@
-# Lab 2: Biblioteka Wektorów
+# Lab 2: Vector Library
 
-Projekt zawierający własną implementację wektorów 2D i 3D z podstawowymi funkcjonalnościami, do użycia w kolejnych projektach.
+A project featuring a custom implementation of 2D and 3D vectors with core functionalities, designed to be used as a foundational library in subsequent projects.
 
-## Wykorzystany Tech Stack
-- **Język:** C# (.NET)
-- **Paradygmaty:** Object-Oriented Programming (OOP), Composition over Inheritance
-- **Wzorce projektowe:** Adapter (Wrapper), Decorator (Dekorator)
+## Tech Stack
+- **Language:** C# (.NET)
+- **Paradigms:** Object-Oriented Programming (OOP), Composition over Inheritance
+- **Design Patterns:** Adapter (Wrapper), Decorator
 
-## Architektura i Wzorce Projektowe
+## Architecture & Design Patterns
 
-W ramach projektu zaimplementowano bazową klasę wektora dwuwymiarowego (`Vector2D`) opartego na współrzędnych kartezjańskich. Następnie jej funkcjonalność została rozszerzona na dwa zupełnie różne sposoby (dziedziczenie vs kompozycja), co pozwala na bezpośrednie porównanie obu podejść.
+The project establishes a base two-dimensional vector class (`Vector2D`) utilizing Cartesian coordinates. Its functionality is then extended using two distinctly different approaches (Inheritance vs. Composition), allowing for a direct, practical comparison of both methodologies.
 
-### 1. Wzorzec Adapter (Adapter Pattern)
-Wektor 2D można reprezentować na dwa sposoby: kartezjańsko (x, y) oraz biegunowo (kąt, promień). Zamiast dodawać logikę biegunową bezpośrednio do wektora kartezjańskiego, wykorzystano wzorzec Adaptera:
-- **`Polar2DInheritance`:** Rozwiązanie sztywne. Klasa dziedziczy po `Vector2D` i dodaje metodę `getAngle()`.
-- **`Polar2DAdapter`:** Rozwiązanie elastyczne. Klasa "owija" (wraps) dowolny obiekt implementujący `IVector` i adaptuje go do interfejsu `IPolar2D`. Pokazuje to, jak w łatwy sposób tłumaczyć jeden interfejs na drugi bez głębokich hierarchii dziedziczenia.
+### 1. Adapter Pattern
+A 2D vector can be mathematically represented in two ways: Cartesian (x, y) and polar (angle, radius). Rather than bloating the Cartesian vector with direct polar logic, the Adapter pattern was employed:
+- **`Polar2DInheritance`:** The rigid approach. This class directly inherits from `Vector2D` and adds a `getAngle()` method.
+- **`Polar2DAdapter`:** The flexible approach. This class wraps any object that implements the `IVector` interface and adapts it to satisfy the `IPolar2D` interface. This demonstrates how to seamlessly translate one interface into another without relying on deep, brittle inheritance hierarchies.
 
-### 2. Wzorzec Dekorator (Decorator Pattern)
-Rozszerzenie wektora z przestrzeni 2D do 3D (dodanie osi Z i iloczynu wektorowego `cross`).
-- **`Vector3DInheritance`:** Ponownie, sztywne podejście klasyczne.
-- **`Vector3DDecorator`:** Dekorator implementujący interfejs `IVector`, który wewnątrz przechowuje referencję do innego `IVector` (bazowego wektora 2D) i dodaje do niego wymiar `Z`. Pozwala to na dynamiczne "udekorowanie" dowolnego wektora dwuwymiarowego w czasie działania programu, zgodnie z zasadą Otwarty-Zamknięty (Open/Closed Principle).
+### 2. Decorator Pattern
+Extending the vector from 2D to 3D space (which introduces the Z-axis and the `cross` product).
+- **`Vector3DInheritance`:** Again, the traditional, rigid inheritance-based approach.
+- **`Vector3DDecorator`:** A decorator that implements the `IVector` interface. It internally holds a reference to another `IVector` (the base 2D vector) and wraps it to add the `Z` dimension. This allows any 2D vector to be dynamically "decorated" into a 3D vector at runtime, adhering strictly to the Open/Closed Principle.
