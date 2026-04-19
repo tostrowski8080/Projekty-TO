@@ -1,38 +1,38 @@
-# Lab 1: Kalkulator Walutowy (NBP API)
+# Lab 1: Currency Calculator (NBP API)
 
-Konsolowa aplikacja do wymiany walut, która na żywo pobiera aktualne kursy z API Narodowego Banku Polskiego (NBP). 
+A console-based currency exchange application that fetches live exchange rates from the National Bank of Poland (NBP) API. 
 
-Głównym celem tego projektu nie było samo napisanie kalkulatora, ale zaprojektowanie go w sposób w pełni zorientowany obiektowo, z zachowaniem wysokiej testowalności i elastyczności na przyszłe zmiany. 
+The primary goal of this project was not just to build a functional calculator, but to design it in a fully object-oriented manner, ensuring high testability and flexibility for future extensions.
 
-## Wykorzystany Tech Stack
-- **Język:** C# (.NET)
-- **Komunikacja sieciowa:** `HttpClient` (asynchroniczne zapytania HTTP)
-- **Przetwarzanie danych:** `System.Xml` (parsowanie dokumentów XML)
-- **Paradygmaty:** Asynchroniczność (TPL - Task Parallel Library), Object-Oriented Programming (OOP)
+## Tech Stack
+- **Language:** C# (.NET)
+- **Network Communication:** `HttpClient` (asynchronous HTTP requests)
+- **Data Processing:** `System.Xml` (XML document parsing)
+- **Paradigms:** Asynchronous Programming (TPL - Task Parallel Library), Object-Oriented Programming (OOP)
 
-## Architektura i Wzorce Projektowe
+## Architecture & Design Patterns
 
-Kod został podzielony na logiczne warstwy, mocno opierając się na interfejsach. Dzięki temu projekt ściśle przestrzega zasad **SOLID**.
+The codebase is divided into logical layers, heavily relying on interfaces. As a result, the project strictly adheres to SOLID principles.
 
-### Kluczowe koncepcje zaimplementowane w kodzie:
+### Key concepts implemented in the codebase:
 
-1. **Wzorzec Polecenia (Command Pattern)**
-   Zamiast ogromnej instrukcji `switch` z logiką w głównym kontrolerze, każda komenda użytkownika jest osobną klasą (np. `ExchangeAction`, `UpdateAction`, `CurrenciesAction`) implementującą interfejs `Action`. Ułatwia to dodawanie nowych funkcji bez modyfikowania istniejącego kodu (zasada Open/Closed).
+1. **Command Pattern**
+   Instead of a massive `switch` statement containing logic within the main controller, each user command is a separate class (e.g., `ExchangeAction`, `UpdateAction`, `CurrenciesAction`) implementing an `Action` interface. This facilitates adding new features without modifying existing code (adhering to the Open/Closed Principle).
 
-2. **Wstrzykiwanie Zależności (Dependency Injection)**
-   Klasa `ExchangeController` nie tworzy swoich zależności (takich jak pobieranie danych czy UI). Są one "wstrzykiwane" przez konstruktor w punkcie wejścia aplikacji (`Program.cs` - Composition Root). Dzięki temu klasę można łatwo przetestować za pomocą mocków.
+2. **Dependency Injection**
+   The `ExchangeController` class does not instantiate its own dependencies (such as data fetching or UI components). Instead, they are "injected" via the constructor at the application's entry point (`Program.cs` - the Composition Root). This makes the controller class highly testable using mocks.
 
-3. **Oddzielenie Warstwy Danych i Prezentacji (Separation of Concerns)**
-   - **`RemoteRepository` (Interfejs):** Odpowiada tylko za pobranie surowych bajtów. Implementacja `Rest` korzysta z `HttpClient`.
-   - **`Document` (Interfejs):** Odpowiada tylko za przetworzenie surowego tekstu na obiekt domenowy `ExchangeTable`. Implementacja `XML` dekoduje format NBP.
-   - **`UserInterface` (Interfejs):** Odseparowuje logikę biznesową od sposobu wyświetlania danych. Implementacja `ConsoleUI` zajmuje się wyłącznie interakcją w terminalu. Zmiana interfejsu na okienkowy (WPF/WinForms) wymagałaby tylko napisania nowej implementacji tego interfejsu, bez ruszania kontrolera.
+3. **Separation of Concerns (Data & Presentation Layers)**
+   - **`RemoteRepository` (Interface):** Responsible solely for fetching raw bytes from the network. The `Rest` implementation utilizes `HttpClient`.
+   - **`Document` (Interface):** Responsible purely for processing raw text into the domain object (`ExchangeTable`). The `XML` implementation decodes the specific NBP data format.
+   - **`UserInterface` (Interface):** Decouples business logic from data presentation. The `ConsoleUI` implementation strictly handles terminal interaction. Migrating to a graphical interface (like WPF or WinForms) would only require writing a new implementation of this interface, without ever touching the core controller.
 
-## Dostępne Funkcjonalności (Komendy)
+## Available Features (Commands)
 
-Po uruchomieniu aplikacji użytkownik ma do dyspozycji interaktywny wiersz poleceń z obsługą następujących komend:
+Upon launching the application, the user is presented with an interactive command-line interface supporting the following commands:
 
-- `help` - Wyświetla listę dostępnych komend.
-- `currencies` - Wypisuje alfabetyczną listę wszystkich dostępnych walut (kodów ISO), załadowanych z API.
-- `update` - Wymusza asynchroniczne pobranie najnowszej tabeli kursów XML z serwerów NBP.
-- `exchange` - Rozpoczyna proces konwersji. Krok po kroku pyta użytkownika o walutę źródłową, docelową oraz kwotę. Automatycznie waliduje poprawne kody walut.
-- `exit` - Bezpiecznie zamyka program.
+- `help` - Displays a list of available commands.
+- `currencies` - Prints an alphabetical list of all available currencies (ISO codes) successfully loaded from the API.
+- `update` - Forces an asynchronous fetch of the latest XML exchange rate table directly from the NBP servers.
+- `exchange` - Initiates the conversion process. It sequentially prompts the user for the source currency, target currency, and amount, automatically validating the inputted currency codes.
+- `exit` - Safely terminates the program.
