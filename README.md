@@ -1,42 +1,42 @@
-# Lab 3: Symulacja Rozprzestrzeniania się Wirusa
+# Lab 3: Virus Spread Simulation
 
-Okienkowa aplikacja (GUI) symulująca w czasie rzeczywistym dynamikę rozprzestrzeniania się wirusa w zamkniętym pomieszczeniu. Ludzie poruszają się po dwuwymiarowej przestrzeni i zarażają się na podstawie określonych reguł dystansu społecznego i czasu ekspozycji.
+A desktop application (GUI) simulating the real-time dynamics of a virus spreading within a closed environment. Individuals move across a 2D space and infect one another based on specific social distancing rules and exposure times.
 
-## Wykorzystany Tech Stack
-- **Język:** C# (.NET)
-- **Interfejs Użytkownika:** WPF (Windows Presentation Foundation) z wykorzystaniem XAML.
-- **Renderowanie:** `Canvas` oraz `DispatcherTimer` (pętla symulacji działająca w 25 FPS).
-- **Serializacja:** `System.Text.Json` (zapis i odczyt stanu symulacji).
-- **Paradygmaty i Wzorce:** Object-Oriented Programming (OOP), State (Stan), Memento (Pamiątka).
+## Tech Stack
+- **Language:** C# (.NET)
+- **User Interface:** WPF (Windows Presentation Foundation) using XAML.
+- **Rendering:** `Canvas` and `DispatcherTimer` (simulation loop running at 25 FPS).
+- **Serialization:** `System.Text.Json` (saving and loading the simulation state).
+- **Paradigms & Patterns:** Object-Oriented Programming (OOP), State Pattern, Memento Pattern.
 
-## Architektura i Wzorce Projektowe
+## Architecture & Design Patterns
 
-### 1. Wzorzec Stan (State Pattern)
-Każdy stan to osobna klasa, która sama decyduje o swoim zachowaniu i przejściach w inne stany:
-- **`SusceptibleState` (Podatny):** Śledzi czas kontaktu z zarażonymi. Po przekroczeniu progu czasowego (oraz wylosowaniu szansy), zmienia stan na `InfectedState`.
-- **`InfectedState` (Zarażony):** Odlicza czas do wyzdrowienia. Występuje w dwóch wariantach (z symptomami lub bez), co wpływa na szansę zarażenia innych. Po upływie czasu automatycznie zmienia się na `ImmuneState`.
-- **`ImmuneState` (Odporny):** Ignoruje kontakty z zarażonymi.
+### 1. State Pattern
+Each health state is encapsulated in a separate class that dictates its own behavior and determines transitions to other states:
+- **`SusceptibleState`:** Tracks contact time with infected individuals. Once the exposure time exceeds a specific threshold (and a probability check is passed), it transitions into the `InfectedState`.
+- **`InfectedState`:** Counts down the time until recovery. It exists in two variants (symptomatic and asymptomatic), which directly impacts the probability of infecting others. Once the timer elapses, it automatically transitions into the `ImmuneState`.
+- **`ImmuneState`:** Completely ignores further contacts with infected individuals.
 
-Klasa `Person` po prostu deleguje metody `Update()` i `HandleContact()` do swojego aktualnego stanu.
+The `Person` class acts as the context, simply delegating the `Update()` and `HandleContact()` methods to its current active state.
 
-### 2. Wzorzec Pamiątka (Memento Pattern)
-Aplikacja posiada funkcjonalność zapisu i wczytywania (Save/Load) w dowolnym momencie. Zrealizowano to używając wzorca Memento:
-- Obiekty (takie jak `Person` czy konkretne stany zdrowia) generują swoje memento (`PersonMemento`, `StateMemento`), które są czystymi klasami DTO (Data Transfer Object).
-- Wewnętrzny stan obiektów (np. prywatne liczniki czasu czy słowniki ekspozycji) nie jest wystawiany publicznie przez properties, lecz zamykany wewnątrz Memento.
-- Główny silnik zbiera je w `SimulationSnapshot` i serializuje do pliku JSON. Przy wczytywaniu, obiekty są odtwarzane na podstawie dostarczonych Pamiątek.
+### 2. Memento Pattern
+The application features a robust Save/Load system that can capture the simulation at any exact moment, implemented via the Memento pattern:
+- Objects (such as `Person` entities or specific health states) generate their own mementos (`PersonMemento`, `StateMemento`), which act purely as Data Transfer Objects (DTOs).
+- Internal object states (e.g., private countdown timers or exposure tracking dictionaries) are not exposed publicly via properties; instead, they are strictly encapsulated within the Memento.
+- The main engine collects these mementos into a comprehensive `SimulationSnapshot` and serializes it to a JSON file. Upon loading, objects are seamlessly reconstructed using their respective Mementos.
 
-## Mechanika Symulacji
+## Simulation Mechanics
 
-Silnik symulacji (`SimulationEngine`) w każdej klatce oblicza nową pozycję ludzi z wykorzystaniem wektorów 2D.
-- **Ruch:** Fizyka 2D z odbijaniem się od ścian pomieszczenia. Zaimplementowano również losowe zaburzenia (perturbacje) wektora prędkości, co symuluje naturalny spacer.
-- **Rotacja populacji:** Ludzie przy krawędziach mają szansę opuścić pomieszczenie (`ShouldLeave`), a na ich miejsce pojawiają się nowi ludzie.
+The `SimulationEngine` recalculates the positions of all individuals every frame using 2D vectors.
+- **Movement:** Features 2D physics with bounding box collisions (individuals bounce off the room's walls). Random perturbations are frequently applied to the velocity vectors to simulate natural, unpredictable wandering.
+- **Population Rotation:** Individuals lingering near the edges of the simulation have a chance to leave the room (`ShouldLeave`), and new, healthy individuals spawn to replace them, keeping the simulation dynamic.
 
-## Interfejs
+## User Interface
 
-Aplikacja posiada panel boczny, z którego użytkownik może kontrolować parametry symulacji w czasie jej trwania.
-Możliwe jest dostosowanie:
-- Rozmiaru populacji
-- Rozmiaru symulowanego pomieszczenia
-- Współczynnika początkowej odporności
-- Odsetka początkowo zakażonych
-- Zapisywania i wczytywania stanu z plików `.json`.
+The application features an interactive side panel that allows the user to dynamically control simulation parameters while the engine is running. 
+Adjustable parameters include:
+- Total population size
+- Simulated room dimensions
+- Initial immunity rate of the population
+- Percentage of initially infected individuals
+- Saving and loading simulation states via `.json` files
